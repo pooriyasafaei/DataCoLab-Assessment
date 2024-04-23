@@ -3,7 +3,7 @@
 </h3>
 <h2 align="center">Objective: </h2>
 
-Create a Python script or notebook that combines NLP, Computer Vision, Machine Learning, and Data Visualization to analyze and understand a dataset of book summaries. This involves cleaning the data, exploring its characteristics through EDA, shortening the summaries, and transforming them into images.
+Creating a Python script or notebook that combines NLP, Computer Vision, Machine Learning, and Data Visualization to analyze and understand a dataset of book summaries. This involves cleaning the data, exploring its characteristics through EDA, shortening the summaries, and transforming them into images.
 
 <h2 align="center">Requirements:</h2>
 
@@ -17,9 +17,9 @@ Create a Python script or notebook that combines NLP, Computer Vision, Machine L
 <h3>3. Computer Vision Component:</h3>
    - Convert the condensed text summaries into images using a Text-to-Image model.
 
-<h3>Output:
-</h3>
-The repo provides:
+<h2 align="center">Output:</h2>
+
+<h3>The repo provides:</h3>
 - The condensed text summaries.
 - The converted images.
 - The findings from the exploratory data analysis.
