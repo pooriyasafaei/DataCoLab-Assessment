@@ -39,4 +39,3 @@ class DriveDownloader:
 
     def _prepare_directory(self):
         os.makedirs(os.path.dirname(self.destination), exist_ok=True)
-
