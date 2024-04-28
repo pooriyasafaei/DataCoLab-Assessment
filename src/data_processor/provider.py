@@ -1,3 +1,4 @@
+import json
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -100,14 +101,15 @@ class BookDataProvider(BookData):
         self.save_plot(plt, 'summary_lengths.png')
         plt.show()
 
-        # Genre Distribution
-        plt.figure(figsize=(10, 5))
+        # Genre Distribution with Improvements
+        plt.figure(figsize=(15, 10))
         genres = self.df['Genres']
-        genre_counts = genres.value_counts()
-        genre_counts.plot(kind='bar', color='purple')
-        plt.title('Genre Distribution')
-        plt.xlabel('Genre')
-        plt.ylabel('Frequency')
+        genre_counts = genres.value_counts().nlargest(20)
+        genre_counts.plot(kind='barh', color='purple')
+        plt.title('Top 20 Genre Distribution')
+        plt.xlabel('Frequency')
+        plt.ylabel('Genre')
+        plt.tight_layout()  # Adjust the layout
         self.save_plot(plt, 'genre_distribution.png')
         plt.show()
 

@@ -24,5 +24,10 @@ Creating a Python script or notebook that combines NLP, Computer Vision, Machine
 - The converted images.
 - The findings from the exploratory data analysis.
 
-<h2 align="center">Data</h2>
+<h2 align="center">Data:</h2>
 https://drive.google.com/file/d/1PDujXAkSelYQ8KX_vBGwDr6EkMhJXlA3/view?usp=share_link
+
+<h2 align="center">Example:</h2>
+An example of usage was provided in the main file that contains file preparation, 
+data preprocessing, data and statistical analysis, condensing summarization and
+generating the image for 30 random samples of book data.
