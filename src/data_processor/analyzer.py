@@ -1,10 +1,9 @@
-import math
-
 from data_processor.provider import BookData
 from data_processor.generator import BookImageGenerator
 from transformers import PegasusTokenizer, PegasusForConditionalGeneration
 import pandas as pd
 
+import math
 from string import printable
 import re
 
