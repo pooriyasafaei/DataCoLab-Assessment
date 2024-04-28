@@ -12,12 +12,12 @@ def download_data(file_id, file_name):
         dler = DriveDownloader(file_id, file_name)
         dler.download()
     else:
-        print("File already exists.")
+        print("data file already exists.")
 
 
 if __name__ == '__main__':
     data_file_name = 'booksummaries.txt'
-    download_data('1PDujXAkSelYQ8KX_vBGwDr6EkMhJXlA3', 'booksummaries.txt')
+    download_data('1PDujXAkSelYQ8KX_vBGwDr6EkMhJXlA3', data_file_name)
     data_provider = BookDataProvider(data_root + data_file_name)
     data_provider.load_data_file()
     data_provider.explore_data()
@@ -25,3 +25,5 @@ if __name__ == '__main__':
     data_provider.fill_missing_dates()
     mean_summary_len = data_provider.get_dataframe()['Summary Length'].mean()
     print(mean_summary_len)
+    data_analyzer = BookDataAnalyzer()
+    data_analyzer.generate_image_for_random_samples(sample_size=1, inference_steps=50, guidance_scale=8)

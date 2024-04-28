@@ -1,8 +1,9 @@
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import sqlite3
 import logging
-from transformers import pipeline
+from wordcloud import WordCloud
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -28,6 +29,26 @@ class BookData:
             print(f"Data loaded from {db_name}, table {table_name}.")
         except Exception as e:
             print(f"Failed to load data from database: {e}")
+
+    def update_db_record(self, row, db_name='book_data.db', table_name='book_summaries_modified'):
+        columns = row.index.tolist()
+        values = [row[col] for col in columns if col != 'URL']
+        set_clause = ", ".join([f'"{col}" = ?' for col in columns if col != 'URL' and col != 'Condensed Summary'])
+        sql = f'UPDATE "{table_name}" SET {set_clause} WHERE URL = ?'
+        values.append(row['URL'])
+
+        conn = None
+        try:
+            conn = sqlite3.connect(db_name)
+            cursor = conn.cursor()
+            cursor.execute(sql, values)
+            conn.commit()
+            print(f"Record updated successfully: URL {row['URL']}")
+        except sqlite3.Error as e:
+            print(f"Database error: {e}")
+        finally:
+            if conn:
+                conn.close()
 
 
 class BookDataProvider(BookData):
@@ -60,19 +81,44 @@ class BookDataProvider(BookData):
         self.save_to_db(table_name='book_summaries_raw')
 
     def explore_data(self):
+        # Distribution of Publication Years
         plt.figure(figsize=(10, 5))
         self.df['Publication Year'].dropna().astype(int).hist(bins=30, color='blue', edgecolor='black')
         plt.title('Distribution of Publication Years')
         plt.xlabel('Year')
         plt.ylabel('Number of Books')
+        self.save_plot(plt, 'publication_years.png')
         plt.show()
 
+        # Distribution of Summary Lengths
         plt.figure(figsize=(10, 5))
         self.df['Summary Length'] = self.df['Summary'].apply(len)
         self.df['Summary Length'].hist(bins=50, color='green', edgecolor='black')
         plt.title('Distribution of Summary Lengths')
         plt.xlabel('Length of Summary')
         plt.ylabel('Number of Summaries')
+        self.save_plot(plt, 'summary_lengths.png')
+        plt.show()
+
+        # Genre Distribution
+        plt.figure(figsize=(10, 5))
+        genres = self.df['Genres']
+        genre_counts = genres.value_counts()
+        genre_counts.plot(kind='bar', color='purple')
+        plt.title('Genre Distribution')
+        plt.xlabel('Genre')
+        plt.ylabel('Frequency')
+        self.save_plot(plt, 'genre_distribution.png')
+        plt.show()
+
+        # Word Cloud for Summaries
+        plt.figure(figsize=(10, 5))
+        text = ' '.join(self.df['Summary'].dropna())
+        wordcloud = WordCloud(width=800, height=400, background_color='white').generate(text)
+        plt.imshow(wordcloud, interpolation='bilinear')
+        plt.axis('off')
+        plt.title('Word Cloud of Book Summaries')
+        self.save_plot(plt, 'word_cloud.png')
         plt.show()
 
     def fill_missing_dates(self):
@@ -83,3 +129,8 @@ class BookDataProvider(BookData):
 
     def get_dataframe(self):
         return self.df
+
+    def save_plot(self, plt, file_name):
+        if not os.path.exists('../plots'):
+            os.makedirs('../plots')
+        plt.savefig(f"../plots/{file_name}")

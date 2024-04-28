@@ -14,29 +14,31 @@
 #     return summary
 #
 #
-# # Example text of about 3000 characters
-# long_text = """ Joe Bonham, a young soldier serving in World War I, awakens in a hospital bed after being caught in the blast of an exploding artillery shell. He gradually realizes that he has lost his arms, legs, and all of his face (including his eyes, ears, teeth, and tongue), but that his mind functions perfectly, leaving him a prisoner in his own body. Joe attempts suicide by suffocation, but finds that he had been given a tracheotomy which he can neither remove nor control. At first Joe wishes to die, but later decides that he desires to be placed in a glass box and toured around the country in order to show others the true horrors of war. After he successfully communicates with his doctors by banging his head on his pillow in Morse code, however, he realizes that neither desire will be granted; it is implied that he will live the rest of his natural life in his condition. As Joe drifts between reality and fantasy, he remembers his old life with his family and girlfriend, and reflects upon the myths and realities of war. He also forms a bond, of sorts, with a young nurse who senses his plight.
-# """
+# # Example text of about 3000 characters long_text = """ ===The Use of Forc he Promotion of Human Right roblems of
+# Distributive Justic n Ethics of World Order==="""
+#
 # summary = summarize_text(long_text)
 # print("Summary:", summary)
 #######################################################################################################################
-from diffusers import StableDiffusionPipeline
-
-
-def generate_image_with_stable_diffusion(prompt):
-    # Load the model; requires Hugging Face authorization token
-    pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", use_auth_token=True)
-    pipe = pipe.to("cuda")  # Move the pipeline to GPU if available
-
-    # Generate an image
-    image = pipe(prompt).images[0]
-    image.save("generated_image.png")  # Save the generated image
-
-    return image
-
-
-# Example usage
-prompt = "A futuristic cityscape, illuminated by neon lights, reflecting a dystopian novel's theme."
-image = generate_image_with_stable_diffusion(prompt)
-image.show()
-
+# import torch
+# from diffusers import StableDiffusionPipeline
+#
+#
+# def generate_image_with_stable_diffusion(prompt):
+#     pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4")
+#
+#     if torch.cuda.is_available():
+#         pipe = pipe.to("cuda")
+#     image = pipe(prompt, num_inference_steps=50,  # Increased from a default lower number
+#                  guidance_scale=8  # Adjust based on how much you want to adhere to the prompt
+#                  ).images[0]
+#     return image
+#
+#
+# # Example usage
+# prompt = """The Cruel Sea: A book published in 1951, categorized under fiction, novel and written by Nicholas
+# Monsarrat. The story: The story of the Royal Navys sinking of several German Uboats during World War Two is told from
+# the point of view of the officers on board."""
+# image = generate_image_with_stable_diffusion(prompt)
+# image.show()
+# image.save('sample-10-50.png')
